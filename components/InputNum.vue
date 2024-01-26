@@ -1,18 +1,19 @@
 <script setup lang="ts">
-const props = defineProps<{ modelValue: string }>();
+const props = defineProps<{ modelValue: "" | number }>();
 const emits = defineEmits<{
-  (e: "update:modelValue", value: string): void
+  (e: "update:modelValue", value: "" | number): void
 }>();
 const modelValue = computed({
   get: () => props.modelValue,
   set: (value) => emits("update:modelValue", value),
-});
+})
 </script>
 
 <template>
   <input
     v-model="modelValue"
-    type="text"
+    type="number"
+    min="0"
     class="w-full rounded-lg border-2 p-2"
   />
 </template>
