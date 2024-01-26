@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <button class="
-    bg-green-200
+    bg-blue-200
     rounded-md
     p-1
     text-md
