@@ -1,4 +1,16 @@
 <script setup lang="ts">
+const dbName = 'taskDB';
+const storeName = 'taskStore';
+
+onMounted(() => {
+  const openReq = indexedDB.open(dbName);
+
+  openReq.onupgradeneeded = (event) => {
+    const db = event.target.result;
+    db.createObjectStore(storeName, { keyPath: 'id' });
+  };
+});
+
 const goAddPage = () => {
   navigateTo('/add');
 };

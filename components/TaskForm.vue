@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { v4 } from 'uuid';
+
 type TaskModel = {
   name: string;
   items: {
@@ -33,8 +35,39 @@ const removeItem = (index: number) => {
   formData.value.items.splice(index, 1);
 };
 
+const dbName = 'taskDB';
+const storeName = 'taskStore';
 
 const submit = () => { 
+  const { name, items } = formData.value;
+
+  const openReq = indexedDB.open(dbName);
+
+  openReq.onsuccess = (event) => {
+    const db = event.target.result;
+    const trans = db.transaction(storeName, 'readwrite');
+    const store = trans.objectStore(storeName);
+
+    // いったんランダムなIDとしておく
+    const id = v4();
+
+    const putReq = store.put({
+      id,
+      name,
+      items: items.map(v => ({
+        name: v.name,
+        amount: v.amount,
+        unit: v.unit,
+      })),
+    });
+
+    putReq.onsuccess = () => {
+      alert('保存に成功しました。')
+    }
+
+  };
+
+
   navigateTo('/');
 };
 
