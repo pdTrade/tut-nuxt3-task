@@ -1,6 +1,16 @@
 <script setup lang="ts">
+import { v4 } from 'uuid';
 
-const formData = reactive({
+type TaskModel = {
+  name: string;
+  items: {
+    name: string;
+    amount: '' | number;
+    unit: string;
+  }[];
+};
+
+const formData = reactive<TaskModel>({
   name: '',
   items: [
     {
@@ -15,5 +25,8 @@ const formData = reactive({
 <template>
   <BaseH1>やること管理</BaseH1>
   <BaseH2>タスク追加</BaseH2>
-  <TaskForm v-model="formData"/>
+  <TaskForm 
+    v-model="formData"
+    :id="v4()"
+  />
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { v4 } from 'uuid';
 
 type TaskModel = {
   name: string;
@@ -41,6 +40,16 @@ const storeName = 'taskStore';
 const submit = () => { 
   const { name, items } = formData.value;
 
+  if (
+    !name ||
+    items.some(
+      (v) => !v.name || !Number.isFinite(v.amount) || !v.unit
+    )
+  ) {
+    alert('フォームを全て入力してください')
+    return;
+  }
+
   const openReq = indexedDB.open(dbName);
 
   openReq.onsuccess = (event) => {
@@ -48,8 +57,7 @@ const submit = () => {
     const trans = db.transaction(storeName, 'readwrite');
     const store = trans.objectStore(storeName);
 
-    // いったんランダムなIDとしておく
-    const id = v4();
+    const id = props.id
 
     const putReq = store.put({
       id,
@@ -66,7 +74,6 @@ const submit = () => {
     }
 
   };
-
 
   navigateTo('/');
 };
