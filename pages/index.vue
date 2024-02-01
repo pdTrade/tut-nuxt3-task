@@ -30,7 +30,7 @@ onMounted(() => {
       const row = cursor.value;
 
       links.value.push({
-        url: `/${row.id}`,
+        url: `${row.id}`,
         text: row.name
       });
 

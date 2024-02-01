@@ -43,6 +43,27 @@ onMounted(() => {
 const goBack = () => {
   navigateTo('/');
 };
+
+const deleteItem = () => {
+  if (!confirm('本当に削除しますか')) {
+    return;
+  }
+
+  const openReq = indexedDB.open(dbName);
+  openReq.onsuccess = (event) => {
+    const db = event.target.result;
+
+    const trans = db.transaction(storeName, 'readwrite');
+
+    const store = trans.objectStore(storeName);
+
+    const deleteReq = store.delete(id);
+
+    deleteReq.onsuccess = () => {
+        navigateTo('/');
+    };
+  };
+}
 </script>
 
 <template>
@@ -57,6 +78,11 @@ const goBack = () => {
       {{ item.name }}
       {{ item.amount }}
       {{ item.unit }}
+    </div>
+    <div class="">
+      <ButtonDanger :onClick="deleteItem">
+        このタスクを削除する
+      </ButtonDanger>
     </div>
   </div>
 
