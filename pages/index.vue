@@ -1,23 +1,25 @@
 <script setup lang="ts">
-const dbName = 'taskDB';
-const storeName = 'taskStore';
+const dbName = "taskDB";
+const storeName = "taskStore";
 
-const links = ref<{
-  url: string;
-  text: string;
-}[]>([]);;
+const links = ref<
+  {
+    url: string;
+    text: string;
+  }[]
+>([]);
 
 onMounted(() => {
   const openReq = indexedDB.open(dbName);
 
   openReq.onupgradeneeded = (event) => {
     const db = event.target.result;
-    db.createObjectStore(storeName, { keyPath: 'id' });
+    db.createObjectStore(storeName, { keyPath: "id" });
   };
 
   openReq.onsuccess = (event) => {
     const db = event.target.result;
-    const trans = db.transaction(storeName, 'readonly');
+    const trans = db.transaction(storeName, "readonly");
     const store = trans.objectStore(storeName);
 
     const cursorReq = store.openCursor();
@@ -31,7 +33,7 @@ onMounted(() => {
 
       links.value.push({
         url: `${row.id}`,
-        text: row.name
+        text: row.name,
       });
 
       cursor.continue();
@@ -40,7 +42,7 @@ onMounted(() => {
 });
 
 const goAddPage = () => {
-  navigateTo('/add');
+  navigateTo("/add");
 };
 </script>
 

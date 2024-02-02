@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const props = defineProps<{ modelValue: "" | number }>();
 const emits = defineEmits<{
-  (e: "update:modelValue", value: "" | number): void
+  (e: "update:modelValue", value: "" | number): void;
 }>();
 const modelValue = computed({
   get: () => props.modelValue,
   set: (value) => emits("update:modelValue", value),
-})
+});
 </script>
 
 <template>

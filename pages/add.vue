@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
 type TaskModel = {
   name: string;
   items: {
     name: string;
-    amount: '' | number;
+    amount: "" | number;
     unit: string;
   }[];
 };
 
 const formData = reactive<TaskModel>({
-  name: '',
+  name: "",
   items: [
     {
-      name: '',
-      amount: '',
-      unit: '',
+      name: "",
+      amount: "",
+      unit: "",
     },
   ],
 });
@@ -25,8 +25,5 @@ const formData = reactive<TaskModel>({
 <template>
   <BaseH1>やること管理</BaseH1>
   <BaseH2>タスク追加</BaseH2>
-  <TaskForm 
-    v-model="formData"
-    :id="v4()"
-  />
+  <TaskForm v-model="formData" :id="v4()" />
 </template>

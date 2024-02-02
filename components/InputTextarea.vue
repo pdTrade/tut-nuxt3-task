@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const props = defineProps<{ modelValue: string }>();
 const emits = defineEmits<{
-  (e: "update:modelValue", value: string): void
+  (e: "update:modelValue", value: string): void;
 }>();
 
 const modelValue = computed({
   get: () => props.modelValue,
   set: (value) => emits("update:modelValue", value),
-})
+});
 </script>
 
 <template>

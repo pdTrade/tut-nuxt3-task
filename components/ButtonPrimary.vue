@@ -5,13 +5,8 @@ defineProps<{
 </script>
 
 <template>
-  <button class="
-    bg-green-200
-    rounded-md
-    p-1
-    text-md
-    shadow-md
-    hover:opacity-80"
+  <button
+    class="text-md rounded-md bg-green-200 p-1 shadow-md hover:opacity-80"
     @click="onClick()"
   >
     <slot />
