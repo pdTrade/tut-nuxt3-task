@@ -1,22 +1,16 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-type TaskModel = {
-  name: string;
-  items: {
-    name: string;
-    amount: '' | number;
-    unit: string;
-  }[];
-};
-
 const route = useRoute();
 const id = route.params.id;
 
 const dbName = 'taskDB';
 const storeName = 'taskStore';
 
-const record = ref<TaskModel | null>(null);
+const formData = reactive({
+  name: '',
+  items: [],
+});
 
 onMounted(() => {
   const openReq = indexedDB.open(dbName);
@@ -30,21 +24,21 @@ onMounted(() => {
     const getReq = store.get(id);
 
     getReq.onsuccess = (event) => {
-      record.value = event.target.result;
+      const res = event.target.result;
 
-      if (!record.value) {
+      if (!res) {
         alert('タスクの情報が見つかりません');
         navigateTo('/');
       }
+
+      formData.name = res.name;
+      formData.items = res.items;
     };
   };
 });
 
 const goBack = () => {
-  navigateTo('/');
-};
-const goUpdate = () => {
-  navigateTo(`/${id}/update`);
+  navigateTo('/${id}');
 };
 
 const deleteItem = () => {
@@ -72,24 +66,13 @@ const deleteItem = () => {
 <template>
   <BaseH1>{{ record?.name }}</BaseH1>
   <div class="text-right">
-    <ButtonSecondary :onClick="goBack">一覧に戻る</ButtonSecondary>
+    <ButtonSecondary :onClick="goBack">詳細ページに戻る</ButtonSecondary>
   </div>
   <BaseH2>詳細</BaseH2>
 
   <div>
-    <div v-for="(item, index) in record?.items">
-      {{ item.name }}
-      {{ item.amount }}
-      {{ item.unit }}
-    </div>
-    <div class="">
-      <ButtonDanger :onClick="deleteItem">
-        このタスクを削除する
-      </ButtonDanger>
-      <ButtonPrimary :onClick="goUpdate">
-        このタスクの情報を更新する
-      </ButtonPrimary>
-    </div>
+    <TaskForm v-model="formData" :id="id" />
   </div>
+
 
 </template>

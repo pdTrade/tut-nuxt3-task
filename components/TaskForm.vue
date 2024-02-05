@@ -73,6 +73,10 @@ const submit = () => {
 
   navigateTo("/");
 };
+
+const goBack = () => {
+  navigateTo("/");
+};
 </script>
 
 <template>
@@ -106,10 +110,11 @@ const submit = () => {
       </div>
     </div>
     <div>
-      <ButtonPrimary :onClick="addItem">追加</ButtonPrimary>
+      <ButtonPrimary :onClick="addItem">手順を追加</ButtonPrimary>
     </div>
     <label> 内容 </label>
-    <div class="text-right">
+    <div class="space-x-4 text-right">
+      <ButtonSecondary :onClick="goBack">一覧に戻る</ButtonSecondary>
       <ButtonPrimary :onClick="submit">保存</ButtonPrimary>
     </div>
   </div>
